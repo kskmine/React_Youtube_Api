@@ -1,5 +1,5 @@
 import React from "react";
-import youtubeAPI from '../../../you-api/src/api/youtube'
+import youtubeAPI from '../api/youtube'
 class Search extends React.Component {
   state = { title: "" };
   onSearchChanged = event => {

@@ -1,7 +1,7 @@
 import axios from "axios";
-const KEY = "AIzaSyCNk9uyRMwZwRhH9qIbFChxMDl3S4da4pg";
+const KEY = "AIzaSyAe7SXfu4UxPClg7bdwYAB0ld7XK507qgk";
 
-const youtubeAPI = axios.create({
+export default axios.create({
   baseURL: "https://www.googleapis.com/youtube/v3",
   params: {
     part: "snippet",
@@ -10,4 +10,3 @@ const youtubeAPI = axios.create({
   },
   headers: {}
 });
-export default youtubeAPI;
