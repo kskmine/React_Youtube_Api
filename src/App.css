@@ -12,9 +12,9 @@ body,
 }
 
 .App {
-  display: grid;
-  grid-template-columns: 70% 1fr;
-  grid-template-rows: 70px auto;
+  display: '-ms-grid';
+  -ms-grid-columns: 70% 1fr;
+  -ms-grid-rows: 70px auto;
 }
 .search-form {
   border-bottom: 1px solid lightgray;

@@ -1,52 +1,47 @@
-/* eslint-disable react/jsx-no-undef */
-import React from "react";
-import youtubeAPI from "./api/youtube";
-import Search from "./components/Search";
-import VideoList from "./components/VideoList";
-import Videoplayer from "./components/VideoPlayer";
-import "./styles/_video.css";
+import React from 'react';
+import SearchBar from './components/Searchbar';
+import youtube from './api/youtube';
+import VideoList from './components/VideoList';
+import VideoDetail from './components/VideoDetail';
 
-export default class App extends React.Component {
- 
-state = {
-    videosMetaInfo: [],
-    selectedVideoId: null
-  };
-  
-  onVideoSelected=videoId=>{
-    this.state({
-      selectedVideoId:videoId
-    })
-  }
+class App extends React.Component {
+    state = {
+        videos: [],
+        selectedVideo: null
+    }
+    handleSubmit = async (termFromSearchBar) => {
+        const response = await youtube.get('/search', {
+            params: {
+                q: termFromSearchBar
+            }
+        })
 
-  onSearch=async keyword=>{
-    const response=await youtubeAPI.get("/search",{
-      params:{
-        q:keyword
-      }
-    }) 
+        this.setState({
+            videos: response.data.items
+        })
+        console.log("this is resp",response);
+    };
+    handleVideoSelect = (video) => {
+        this.setState({selectedVideo: video})
+    }
 
-  this.setState({
-    videosMetaInfo:Response.data.items,
-    selectedVideoId:Response.data.items[0].id.videoId
-  });
-
-  console.log(this.state)
-};
-
-render() {
-    return (
-      <div className="App">
-        <Search onSearch={this.onSearch} />
-      
-      <VideoList
-          onVideoSelected={this.onVideoSelected}
-          data={this.state.videosMetaInfo} />
-          
-          <Videoplayer videoId={this.state.selectedVideoId} />
-
-          </div> 
-    );
-  }
+    render() {
+        return (
+            <div className='ui container' style={{marginTop: '1em'}}>
+                <SearchBar handleFormSubmit={this.handleSubmit}/>
+                <div className='ui grid'>
+                    <div className="ui row">
+                        <div className="eleven wide column">
+                            <VideoDetail video={this.state.selectedVideo}/>
+                        </div>
+                        <div className="five wide column">
+                            <VideoList handleVideoSelect={this.handleVideoSelect} videos={this.state.videos}/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
+    }
 }
- 
+
+export default App;
